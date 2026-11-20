@@ -8,15 +8,20 @@
 # History
 # --------------------------------------------------
 
-HISTFILE="$ZDOTDIR/.zhistory"
+[[ -d $XDG_STATE_HOME/zsh && -d $XDG_CACHE_HOME/zsh ]] ||
+  mkdir -p "$XDG_STATE_HOME/zsh" "$XDG_CACHE_HOME/zsh"
+
+HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=20000
 SAVEHIST=20000
 
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_VERIFY
+setopt HIST_NO_STORE
 
 # --------------------------------------------------
 # Completion
@@ -70,9 +75,15 @@ fi
 # Autosuggestions
 # --------------------------------------------------
 
-if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
+for _f in "${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+          /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+          /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+  if [[ -f $_f ]]; then
+    source "$_f"
+    break
+  fi
+done
+unset _f
 
 # --------------------------------------------------
 # Starship

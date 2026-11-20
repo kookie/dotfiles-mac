@@ -1,15 +1,13 @@
 # ~/.config/zsh/.zprofile
 
-# Homebrew — Apple silicon
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-# XDG directories
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_STATE_HOME="$HOME/.local/state"
+# Homebrew — Apple silicon, Intel, Linuxbrew
+for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  if [[ -x $_brew ]]; then
+    eval "$($_brew shellenv)"
+    break
+  fi
+done
+unset _brew
 
 # Editor
 export EDITOR="nvim"
@@ -22,11 +20,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 export BAT_THEME="Catppuccin Macchiato"
 
 # Atuin 
-export ATUIN_CONFIG_DIR="$HOME/.config/atuin"
-
-# Avoid duplicate PATH entries
-typeset -U path PATH
+export ATUIN_CONFIG_DIR="$XDG_CONFIG_HOME/atuin"
 
 # User executables
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
-
