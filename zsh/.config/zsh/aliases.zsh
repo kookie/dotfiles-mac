@@ -8,7 +8,7 @@
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
-alias svim='sudoedit'
+alias svim='sudo -e'
 
 # --------------------------------------------------
 # Files
@@ -19,6 +19,11 @@ if (( $+commands[eza] )); then
   alias ll='eza -lah --icons --group-directories-first'
   alias la='eza -la --icons --group-directories-first'
 else
+  if ls --color=auto -d . >/dev/null 2>&1; then
+    alias ls='ls --color=auto'
+  else
+    alias ls='ls -G'
+  fi
   alias ll='ls -lah'
   alias la='ls -la'
 fi

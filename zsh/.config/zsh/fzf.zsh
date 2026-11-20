@@ -17,7 +17,7 @@ fi
 
 # Previews
 if (( $+commands[bat] )); then
-  export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+  export FZF_CTRL_T_OPTS="--preview '[[ -d {} ]] && eza --tree --color=always {} | head -200 || bat -n --color=always --line-range :500 {}'"
 fi
 
 if (( $+commands[eza] )); then
