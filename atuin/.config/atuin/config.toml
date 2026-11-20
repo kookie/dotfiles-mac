@@ -1,4 +1,16 @@
-style = "full" 
+style = "full"
+
+# Sync stays off unless deliberately enabled (atuin login)
+auto_sync = false
+# sync_address = "https://api.atuin.sh"
+
+# Never record secrets
+secrets_filter = true
+history_filter = [
+  "^export .*(TOKEN|SECRET|KEY|PASSWORD)=",
+  "^op (read|signin)",
+  "Authorization: Bearer",
+]
 
 [theme]
 name = "catppuccin-macchiato-mauve"
