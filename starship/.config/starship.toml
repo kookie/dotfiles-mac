@@ -3,15 +3,13 @@ add_newline = false
 format = """$directory$character"""
 palette = "catppuccin_macchiato"
 # move the rest of the prompt to the right
-right_format = """$all"""
-command_timeout = 1000
+right_format = """$username$hostname$git_branch$git_commit$git_state$git_status$aws$kubernetes$docker_context$golang$python$nodejs$rust$terraform$helm$cmd_duration$jobs$status"""
+command_timeout = 500
+scan_timeout = 10
 
 [character]
-vicmd_symbol = "[N] >>>"
+vicmd_symbol = '[❮](bold green)'
 success_symbol = '[➜](bold green)'
-
-[directory.substitutions]
-'~/tests/starship-custom' = 'work-project'
 
 [username]
 show_always = true
@@ -36,11 +34,7 @@ format = '[ ](bold cyan)'
 [kubernetes]
 symbol = '☸ '
 disabled = true
-detect_files = ['Dockerfile']
 format = '[$symbol$context( \($namespace\))]($style) '
-contexts = [
-  { context_pattern = "arn:aws:eks:us-west-2:577926974532:cluster/zd-pvc-omer", style = "green", context_alias = "omerxx", symbol = " " },
-]
 
 [docker_context]
 disabled = true
@@ -72,31 +66,3 @@ surface0 = "#363a4f"
 base = "#24273a"
 mantle = "#1e2030"
 crust = "#181926"
-
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
