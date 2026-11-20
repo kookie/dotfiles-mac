@@ -16,9 +16,6 @@ export VISUAL="nvim"
 # Homebrew
 export HOMEBREW_NO_ENV_HINTS=1
 
-# BAT THEME 
-export BAT_THEME="Catppuccin Macchiato"
-
 # Atuin 
 export ATUIN_CONFIG_DIR="$XDG_CONFIG_HOME/atuin"
 
