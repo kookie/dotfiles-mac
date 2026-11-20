@@ -1,5 +1,22 @@
-.zcompdump
-.zhistory
+# macOS
 .DS_Store
 
+# zsh runtime (history/compdump now live in XDG dirs; keep as a safety net)
+.zcompdump*
+.zhistory
+.zsh_history
+.zsh_sessions/
 
+# app runtime state
+k9s/.config/k9s/clusters/
+k9s/.config/k9s/*.log
+k9s/.config/k9s/screen-dumps/
+lazygit/.config/lazygit/state.yml
+btop/.config/btop/btop.log
+
+# never commit
+.env
+.env.*
+*.pem
+*.key
+kubeconfig
