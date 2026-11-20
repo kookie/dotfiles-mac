@@ -28,7 +28,16 @@ setopt HIST_NO_STORE
 # --------------------------------------------------
 
 autoload -Uz compinit
-compinit
+# Full security check at most once a day; otherwise trust the cached dump
+() {
+  setopt local_options extended_glob
+  local dump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+  if [[ ! -s $dump || -n $dump(#qN.mh+24) ]]; then
+    compinit -d "$dump"
+  else
+    compinit -C -d "$dump"
+  fi
+}
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -55,21 +64,29 @@ bindkey '^[[1;3D' backward-word
   source "$ZDOTDIR/aliases.zsh"
 
 # --------------------------------------------------
+# Cached tool init
+# --------------------------------------------------
+
+# Source "<cmd> init" output from a cache, regenerated when the binary changes
+_cache_init() {  # usage: _cache_init <name> <cmd...>
+  local f="$XDG_CACHE_HOME/zsh/init-$1.zsh" bin=${commands[$2]}
+  [[ -n $bin ]] || return
+  [[ -s $f && $f -nt ${bin:A} ]] || "${@:2}" >| "$f"
+  source "$f"
+}
+
+# --------------------------------------------------
 # fzf
 # --------------------------------------------------
 [[ -f "$ZDOTDIR/fzf.zsh" ]] && source "$ZDOTDIR/fzf.zsh"
 
-if (( $+commands[fzf] )); then
-  eval "$(fzf --zsh)"
-fi
+_cache_init fzf fzf --zsh
 
 # --------------------------------------------------
 # zoxide
 # --------------------------------------------------
 
-if (( $+commands[zoxide] )); then
-  eval "$(zoxide init --cmd cd zsh)"
-fi
+_cache_init zoxide zoxide init --cmd cd zsh
 
 # --------------------------------------------------
 # Autosuggestions
@@ -89,22 +106,21 @@ unset _f
 # Starship
 # --------------------------------------------------
 
-if (( $+commands[starship] )); then
-  eval "$(starship init zsh)"
-fi
+_cache_init starship starship init zsh --print-full-init
 
 # --------------------------------------------------
 # Atuin
 # --------------------------------------------------
 
-if (( $+commands[atuin] )); then
-  eval "$(atuin init zsh)"
-fi
+_cache_init atuin atuin init zsh
+
+unfunction _cache_init
 
 # --------------------------------------------------
-# Fastfetch — terminal welcome screen
+# Fastfetch — terminal welcome screen (top-level terminals only)
 # --------------------------------------------------
 
-if [[ -o interactive ]] && (( $+commands[fastfetch] )); then
+if (( $+commands[fastfetch] )) &&
+   [[ -t 1 && -z $TMUX && -z $NVIM && $SHLVL -eq 1 && $TERM_PROGRAM != vscode ]]; then
   fastfetch
 fi
