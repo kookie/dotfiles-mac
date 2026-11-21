@@ -28,11 +28,12 @@ setopt HIST_NO_STORE
 # --------------------------------------------------
 
 autoload -Uz compinit
-# Full security check at most once a day; otherwise trust the cached dump
+# Full check at most once a day, or when brew adds completions; otherwise trust the cached dump
 () {
   setopt local_options extended_glob
   local dump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
-  if [[ ! -s $dump || -n $dump(#qN.mh+24) ]]; then
+  local site="${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh/site-functions"
+  if [[ ! -s $dump || -n $dump(#qN.mh+24) || ( -d $site && $site -nt $dump ) ]]; then
     compinit -d "$dump"
   else
     compinit -C -d "$dump"

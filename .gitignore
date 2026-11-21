@@ -20,3 +20,6 @@ btop/.config/btop/btop.log
 *.pem
 *.key
 kubeconfig
+
+# gh auth (token lives in the keychain, but never track hosts.yml)
+gh/.config/gh/hosts.yml
