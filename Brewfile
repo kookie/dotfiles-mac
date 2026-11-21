@@ -2,7 +2,7 @@ tap "dgunzy/tap"
 tap "driceroland/tap"
 tap "fluxcd/tap"
 tap "handfish/tap", "https://github.com/Handfish/homebrew-tap"
-tap "siderolabs/tap"
+tap "siderolabs/tap", trusted: true
 tap "webstonehq/tap"
 # Improved shell history for zsh, bash, fish and nushell
 brew "atuin", restart_service: :changed
@@ -20,6 +20,8 @@ brew "fastfetch"
 brew "fd"
 # Command-line fuzzy finder written in Go
 brew "fzf"
+# GitHub command-line tool
+brew "gh"
 # Distributed revision control system
 brew "git"
 # Kubernetes package manager
@@ -56,6 +58,8 @@ brew "wget"
 brew "yq"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Meta Package for common Sidero Labs tools
+brew "siderolabs/tap/sidero-tools", trusted: true
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
